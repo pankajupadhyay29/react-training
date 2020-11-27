@@ -68,6 +68,13 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
+# .lock files
+yarn.lock
+package.lock.json
+
+# DS_Store fiels
+.DS_Store
+
 # dotenv environment variables file
 .env
 .env.test
