@@ -53,5 +53,20 @@ export class Student implements IStudent {
   public addMarks(subject: string, marks: number) {
     this.marks[subject] = marks;
   }
+
+  public printMarks() {
+    Object.keys(this.marks).forEach(key => console.log(`${key} -> ${this.marks[key]}`));
+  }
+
+  public marksArray() {
+    return Object.keys(this.marks).map(key => [key, this.marks[key]]);
+  }
+
+  public addDefaultMarks = () => {
+    this.addMarks('JS', 10);
+    this.addMarks('C#', 10);
+    this.addMarks('TS', 6);
+    this.addMarks('React', 4);
+  }
   
 }

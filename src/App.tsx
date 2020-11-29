@@ -14,7 +14,9 @@ function App() {
         <button onClick={Test.letTest}>let Test</button>
         <button onClick={obj.getValue} >this without arrow Test</button>
         <button onClick={() => obj.getValue()} >this with arrow Test</button>
-        <button onClick={() => alert(student.Name)}>class Test</button>
+        <button onClick={student.addDefaultMarks}>Add Marks</button>
+        <button onClick={student.printMarks.bind(student)}>Print Marks</button>
+        <button onClick={() => console.log(student.marksArray())}>Print Marks Array</button>
       </header>
     </div>
   );
