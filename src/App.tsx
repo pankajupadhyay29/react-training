@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import Bug from "./Bugs/Bug";
 
 const bugs = [
 	{
@@ -52,14 +53,15 @@ function App() {
 						<div>Assigned To</div>
 						<div>Status</div>
 					</li>
-					{bugs.map((bug) => (
-						<li key={bug.id} className="flex-row">
+					{bugs.map((bug) => {
+            return <Bug key={bug.id} {...bug}></Bug>
+						{/*<li key={bug.id} className="flex-row">
 							<div>{bug.id}</div>
 							<div>{bug.description}</div>
 							<div>{bug.assignedTo}</div>
 							<div>{bug.status}</div>
-						</li>
-					))}
+          </li>*/}
+        })}
 					{/*
 					<li className="flex-row">
 						<div>HR-121212</div>
