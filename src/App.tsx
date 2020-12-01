@@ -48,10 +48,44 @@ export default class App extends React.Component<AppProps, AppsState> {
 		super(props);
 		this.state = {
 			bugs: initialBugList,
-		};
-	}
+    };
+    
+    console.log("App Component > constructor");
+  }
+  
+  public static getDerivedStateFromProps() {
+    console.log("App Component > getDerivedStateFromProps", arguments);
+  }
+
+  public static getSnapshotBeforeUpdate() {
+    console.log("App Component > getSnapshotBeforeUpdate", arguments);
+  }
+
+  public componentDidMount() {
+    console.log("App Component > componentDidMount", arguments);
+  }
+
+
+  public componentDidUpdate() {
+    console.log("App Component > componentDidUpdate", arguments);
+  }
+
+  public componentDidCatch() {
+    console.log("App Component > componentDidCatch", arguments);
+  }
+
+  public componentWillUnmount() {
+    console.log("App Component > componentWillUnmount", arguments);
+  }
+
+
+  public shouldComponentUpdate() {
+    console.log("App Component > shouldComponentUpdate", arguments);
+    return false;
+  }
 
 	public render() {
+    console.log("App Component > render", arguments);
 		const { bugs } = this.state;
 		return (
 			<div className="flex-column">
