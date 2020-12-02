@@ -1,14 +1,6 @@
 import React from "react";
 import "./App.css";
-import Bug from "./Bugs/Bug";
-
-interface IBug {
-	id: string;
-	description: string;
-	createdBy: string;
-	assignedTo: string;
-	status: string; // "Open" | "On Hold" | "In Progress" | "Resolved" | "Closed"
-}
+import BugList, { IBug } from "./Bugs/BugList";
 
 const initialBugList: IBug[] = [
 	{
@@ -48,59 +40,60 @@ export default class App extends React.Component<AppProps, AppsState> {
 		super(props);
 		this.state = {
 			bugs: initialBugList,
-    };
-    
-    console.log("App Component > constructor");
-  }
-  
-  public static getDerivedStateFromProps() {
+		};
+
+		console.log("App Component > constructor");
+	}
+
+	public static getDerivedStateFromProps() {
     console.log("App Component > getDerivedStateFromProps", arguments);
-  }
+    return null;
+	}
 
-  public static getSnapshotBeforeUpdate() {
+	public getSnapshotBeforeUpdate() {
     console.log("App Component > getSnapshotBeforeUpdate", arguments);
-  }
+    return null;
+	}
 
-  public componentDidMount() {
-    console.log("App Component > componentDidMount", arguments);
-  }
+	public componentDidMount() {
+		console.log("App Component > componentDidMount", arguments);
+	}
 
+	public componentDidUpdate() {
+		console.log("App Component > componentDidUpdate", arguments);
+	}
 
-  public componentDidUpdate() {
-    console.log("App Component > componentDidUpdate", arguments);
-  }
+	public componentDidCatch() {
+		console.log("App Component > componentDidCatch", arguments);
+	}
 
-  public componentDidCatch() {
-    console.log("App Component > componentDidCatch", arguments);
-  }
+	public componentWillUnmount() {
+		console.log("App Component > componentWillUnmount", arguments);
+	}
 
-  public componentWillUnmount() {
-    console.log("App Component > componentWillUnmount", arguments);
-  }
-
-
-  public shouldComponentUpdate() {
-    console.log("App Component > shouldComponentUpdate", arguments);
-    return false;
-  }
+	public shouldComponentUpdate() {
+		console.log("App Component > shouldComponentUpdate", arguments);
+		return true;
+	}
 
 	public render() {
-    console.log("App Component > render", arguments);
+		console.log("App Component > render", arguments);
 		const { bugs } = this.state;
 		return (
 			<div className="flex-column">
 				<header>
 					<div className="flex-row navbar">
-						<a href="#">Dashboard</a>
-						<a href="#">Assigned to Me</a>
-						<a href="#">Reported By Me</a>
-						<a href="#">Search</a>
-						<a href="#">Create</a>
+						<a href="#link">Dashboard</a>
+						<a href="#link">Assigned to Me</a>
+						<a href="#link">Reported By Me</a>
+						<a href="#link">Search</a>
+						<a href="#link">Create</a>
 					</div>
 				</header>
 				<div>
 					<h1>Bugs assigned to you</h1>
-					<ul className="list">
+					<BugList bugs={bugs} onChangeStatus={this.onChange} />
+					{/* <ul className="list">
 						<li className="flex-row">
 							<div>Key</div>
 							<div>Summary</div>
@@ -110,19 +103,25 @@ export default class App extends React.Component<AppProps, AppsState> {
 						{bugs.map((bug) => (
 							<Bug key={bug.id} {...bug} onChangeStatus={this.onChange}></Bug>
 						))}
-					</ul>
+					</ul> */}
 				</div>
 			</div>
 		);
 	}
 
 	private onChange = (id: string, status: string) => {
-		const { bugs } = this.state;
-		const changedBug = bugs.find((bug) => bug.id === id);
+    const { bugs } = this.state;
+    const changedIndex = bugs.findIndex((bug) => bug.id === id);
+    const newList = [...bugs];
+    const updatedBug = {...bugs[changedIndex]};
+    updatedBug.status = status;
+    newList[changedIndex] = updatedBug;
+    this.setState({bugs: newList});
+		/* const changedBug = bugs.find((bug) => bug.id === id);
 		if (changedBug) {
 			const updatedBugs = bugs.filter((bug) => bug.id !== id);
 			this.setState({ bugs: [...updatedBugs, { ...changedBug, status }] });
-		}
+		}*/
 	};
 }
 // function App() {
@@ -130,11 +129,11 @@ export default class App extends React.Component<AppProps, AppsState> {
 // 		<div className="flex-column">
 // 			<header>
 // 				<div className="flex-row navbar">
-// 					<a href="#">Dashboard</a>
-// 					<a href="#">Assigned to Me</a>
-// 					<a href="#">Reported By Me</a>
-// 					<a href="#">Search</a>
-// 					<a href="#">Create</a>
+// 					<a href="#link">Dashboard</a>
+// 					<a href="#link">Assigned to Me</a>
+// 					<a href="#link">Reported By Me</a>
+// 					<a href="#link">Search</a>
+// 					<a href="#link">Create</a>
 // 				</div>
 // 			</header>
 // 			<div>
