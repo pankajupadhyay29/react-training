@@ -2,44 +2,13 @@ import React from "react";
 import "./App.css";
 import BugList, { IBug } from "./Bugs/BugList";
 
-const initialBugList: IBug[] = [
-	{
-		id: "HR-121212",
-		description: "This is a test HR issue",
-		createdBy: "pankaj.upadhyay",
-		assignedTo: "pankaj.upadhyay",
-		status: "Open",
-	},
-	{
-		id: "IT-121314",
-		description: "This is a test IT issue",
-		createdBy: "pankaj.upadhyay",
-		assignedTo: "pankaj.upadhyay",
-		status: "On Hold",
-	},
-	{
-		id: "FN-121212",
-		description: "This is a test Finance issue",
-		createdBy: "pankaj.upadhyay",
-		assignedTo: "pankaj.upadhyay",
-		status: "In Progress",
-	},
-	{
-		id: "TR-121212",
-		description: "This is a test Travel issue",
-		createdBy: "pankaj.upadhyay",
-		assignedTo: "pankaj.upadhyay",
-		status: "In Progress",
-	},
-];
-
 type AppProps = {};
 type AppsState = { bugs: IBug[] };
 export default class App extends React.Component<AppProps, AppsState> {
 	constructor(props: AppProps) {
 		super(props);
 		this.state = {
-			bugs: initialBugList,
+			bugs: [],
 		};
 
 		console.log("App Component > constructor");
@@ -56,7 +25,13 @@ export default class App extends React.Component<AppProps, AppsState> {
 	}
 
 	public componentDidMount() {
-		console.log("App Component > componentDidMount", arguments);
+    console.log("App Component > componentDidMount", arguments);
+    fetch('http://127.0.0.1:5000/bugs').then(async res => {
+      const data = await res.json();
+      console.log(data);
+      this.setState({bugs: data as any});
+    })
+    .catch(console.log)
 	}
 
 	public componentDidUpdate() {
