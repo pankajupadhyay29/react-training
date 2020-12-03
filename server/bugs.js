@@ -31,6 +31,17 @@ class Bugs {
         return this.post(bug);
     }
 
+    updatebugs({id, status, description, assignedto, createdby}) {
+        const index = this.bugs.findIndex(bug => bug.id === id);
+        if (index >= 0) {
+            if (status) this.bugs[index].status = status;
+            if (description) this.bugs[index].description = description;
+            if (assignedto) this.bugs[index].assignedTo = assignedto;
+            if (createdby) this.bugs[index].createdBy = createdby;
+        }
+        return this.writeToFile();
+    }
+
     writeToFile() {
         const result = this.getJson();
         fs.writeFile(filePath, result, () => true);

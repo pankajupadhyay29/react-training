@@ -85,7 +85,13 @@ export default class App extends React.Component<AppProps, AppsState> {
 	}
 
 	private onChange = (id: string, status: string) => {
-    const { bugs } = this.state;
+    fetch(`http://127.0.0.1:5000/updatebugs?id=${id}&status=${status}`).then(async res => {
+      const data = await res.json();
+      console.log(data);
+      this.setState({bugs: data as any});
+    })
+    .catch(console.log)
+    /*const { bugs } = this.state;
     const changedIndex = bugs.findIndex((bug) => bug.id === id);
     const newList = [...bugs];
     const updatedBug = {...bugs[changedIndex]};
