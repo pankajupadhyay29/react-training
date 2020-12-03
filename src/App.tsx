@@ -1,8 +1,15 @@
 import React from "react";
 import "./App.css";
 import Bug from "./bugs/Bug";
+interface IBug {
+  id: string;
+    description: string;
+    createdBy: string;
+    assignedTo: string;
+    status: string;
+}
 
-const bugs = [
+const defaultBugList = [
   {
     id: "HR-00001",
     description: "This is a test HR issue",
@@ -41,13 +48,19 @@ const bugs = [
   },
 ];
 
-class App extends React.Component {
+type AppProps = {};
+type AppState = {bugs: IBug[], counter: number};
+
+class App extends React.Component<AppProps, AppState> {
+  constructor(props: AppProps) {
+    super(props);
+    this.state = {
+      bugs: defaultBugList,
+      counter: 1,
+    };
+  }
   public render() {
-    const forEach = bugs.forEach((bug) => console.log(bug));
-    console.log("Using map");
-    const map = bugs.map((bug) => console.log(bug));
-    console.log("for each output", forEach);
-    console.log("map output", map);
+    const { bugs, counter } = this.state;
     return (
       <div className="flex-column">
         <header>
@@ -61,13 +74,13 @@ class App extends React.Component {
         </header>
         <div>
           <h1>Bugs assigned to you</h1>
+    <button onClick={() => this.setState({counter: counter + 1})}>{counter}</button>
           <ul className="list">
-            <li className="flex-row">
-              <div>Key</div>
-              <div>Summary</div>
-              <div>Assigned To</div>
-              <div>Status</div>
-            </li>
+            <Bug id="ID"
+                  description="Description"
+                  status="Status"
+                  assignedTo="Assigned To"
+            />
             {bugs.map((bug) => {
               return (
                 <Bug
@@ -76,6 +89,7 @@ class App extends React.Component {
                   description={bug.description}
                   status={bug.status}
                   assignedTo={bug.assignedTo}
+                  onChangeStatus= {this.onChange}
                 />
               );
             })}
@@ -84,6 +98,19 @@ class App extends React.Component {
       </div>
     );
   }
+
+  private onChange = (id: string, status: string) => {
+    const { bugs } = this.state;
+    const index = bugs.findIndex((bug) => bug.id === id);
+    
+		if (index>=0) {
+      const changedBug = {...bugs[index]};
+      const updatedBugs = [...bugs];
+      changedBug.status = status;
+      updatedBugs[index] = changedBug;
+			this.setState({ bugs:  updatedBugs});
+		}
+	};
 }
 
 export default App;
